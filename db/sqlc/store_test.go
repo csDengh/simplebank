@@ -35,7 +35,7 @@ func TestTranfer(t *testing.T) {
 	existed := make(map[int]bool)
 	for i := 0; i < n; i++ {
 		res := <-resChan
-		require.NoError(t, res.err)
+		require.NoError(t, res.Err)
 
 		transfer := res.Transfer
 		require.NotEmpty(t, transfer)
@@ -136,7 +136,7 @@ func TestTranferDeadLock(t *testing.T) {
 
 	for i := 0; i < n; i++ {
 		res := <-resChan
-		require.NoError(t, res.err)
+		require.NoError(t, res.Err)
 	}
 
 	account1Actual, err := s.GetAccount(context.Background(), account1.ID)

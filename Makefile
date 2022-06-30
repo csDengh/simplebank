@@ -10,14 +10,25 @@ postgres:
 migrateup:
 	migrate -path db/migration/ -database "postgresql://root:secret@192.168.66.16:5432/simple_bank?sslmode=disable" -verbose up
 
+migrateup1:
+	migrate -path db/migration/ -database "postgresql://root:secret@192.168.66.16:5432/simple_bank?sslmode=disable" -verbose up 1
+
+
 migratedown:
 	migrate -path db/migration/ -database "postgresql://root:secret@192.168.66.16:5432/simple_bank?sslmode=disable" -verbose down
+
+migratedown1:
+	migrate -path db/migration/ -database "postgresql://root:secret@192.168.66.16:5432/simple_bank?sslmode=disable" -verbose down 1
+
 
 migrateupgithub:
 	migrate -path db/migration/ -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up
 
 migratedowngithub:
 	migrate -path db/migration/ -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
+
+migrateNew:
+	migrate create -ext sql -dir db/migration -seq add_users
 
 sqlc:
 	sqlc generate
@@ -31,4 +42,4 @@ mock:
 test:
 	go test -v -cover ./...
 
-.PHONY: createdb dropdb postgres migrateup migratedown
+.PHONY: createdb dropdb postgres migrateup migrateup1 migratedown migratedown1 migrateNew

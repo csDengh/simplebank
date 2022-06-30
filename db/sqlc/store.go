@@ -53,7 +53,7 @@ type TransferTxResult struct {
 	ToAccount   Account  `json:"to_account"`
 	FromEntry   Entry    `json:"from_entry"`
 	ToEntry     Entry    `json:"to_entry"`
-	err         error
+	Err         error
 }
 
 func (s *SqlStore) TransferTx(ctx context.Context, req *TransferTxParams) *TransferTxResult {
@@ -95,7 +95,7 @@ func (s *SqlStore) TransferTx(ctx context.Context, req *TransferTxParams) *Trans
 
 		return err
 	})
-	result.err = err
+	result.Err = err
 	return &result
 }
 
