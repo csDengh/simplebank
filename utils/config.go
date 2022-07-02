@@ -8,6 +8,7 @@ import (
 
 type Config struct {
 	ADDR                 string        `mapstructure:"ADDR"`
+	GRPC_ADDR            string        `mapstructure:"GRPC_ADDR"`
 	DBDriver             string        `mapstructure:"DB_DRIVER"`
 	DBSource             string        `mapstructure:"DB_SOURCE"`
 	SymmetricKey         string        `mapstructure:"TOKEN_SYMMETRIC_KEY"`
