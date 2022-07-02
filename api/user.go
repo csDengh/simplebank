@@ -9,8 +9,10 @@ import (
 	db "github.com/csdengh/cur_blank/db/sqlc"
 	"github.com/csdengh/cur_blank/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/lib/pq"
 )
+
 
 type CreateUserReq struct {
 	Username  string `json:"username" binding:"required,alphanum"`
@@ -66,7 +68,12 @@ type UserLoginRes struct {
 	Email             string    `json:"email"`
 	PasswordChangedAt time.Time `json:"password_changed_at"`
 	CreatedAt         time.Time `json:"created_at"`
-	UserToken         string    `json:"user_token"`
+
+	SessionID             uuid.UUID    `json:"session_id"`
+	AccessToken           string       `json:"access_token"`
+	AccessTokenExpiresAt  time.Time    `json:"access_token_expires_at"`
+	RefreshToken          string       `json:"refresh_token"`
+	RefreshTokenExpiresAt time.Time    `json:"refresh_token_expires_at"`
 }
 
 func (s *Server) UserLogin(ctx *gin.Context) {
@@ -93,8 +100,28 @@ func (s *Server) UserLogin(ctx *gin.Context) {
 		return
 	}
 
-	usetToken, _, err := s.tokenMaker.CreateToken(req.Username, s.config.TokenDur)
+	accessToken, accessPlayload, err := s.tokenMaker.CreateToken(req.Username, s.config.AccessTokenDuration)
 	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, ErrorRes(err))
+		return
+	}
+
+	refleshToken, refleshPlayload , err := s.tokenMaker.CreateToken(req.Username, s.config.RefreshTokenDuration)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, ErrorRes(err))
+		return
+	}
+
+	_, err = s.store.CreateSession(ctx, db.CreateSessionParams{
+		ID: refleshPlayload.Id,
+		Username: req.Username,
+		RefreshToken: refleshToken,
+		UserAgent: ctx.Request.UserAgent(),
+		ClientIp: ctx.ClientIP(),
+		IsBlocked: false,
+		ExpiresAt: refleshPlayload.TimeExprieAt,
+	})
+	if err != nil{
 		ctx.JSON(http.StatusInternalServerError, ErrorRes(err))
 		return
 	}
@@ -105,7 +132,12 @@ func (s *Server) UserLogin(ctx *gin.Context) {
 		Email:             u.Email,
 		PasswordChangedAt: u.PasswordChangedAt,
 		CreatedAt:         u.CreatedAt,
-		UserToken:         usetToken,
+		AccessToken:         accessToken,
+		AccessTokenExpiresAt: accessPlayload.TimeExprieAt,
+
+		SessionID: refleshPlayload.Id,
+		RefreshToken: refleshToken,
+		RefreshTokenExpiresAt: refleshPlayload.TimeExprieAt,
 	}
 	ctx.JSON(http.StatusOK, userRes)
 }

@@ -55,6 +55,7 @@ func (s *Server) SartRoute() {
 	route.POST("/users", s.CreateUser)
 	route.POST("/users/login", s.UserLogin)
 
+	route.POST("/tokens/renew_access", s.renewAccessToken)
 
 	s.route = route
 }

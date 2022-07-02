@@ -1,7 +1,6 @@
 package token
 
 import (
-	"fmt"
 	"testing"
 	"time"
 
@@ -26,8 +25,7 @@ func TestPaseto(t *testing.T) {
 	plNew, err := pm.ValidToken(token)
 	require.NoError(t, err)
 	require.NotEmpty(t, plNew)
-	fmt.Println(pl)
-	fmt.Println(plNew)
+
 	require.Equal(t, pl.Username, plNew.Username)
 	require.WithinDuration(t, pl.TimeExprieAt, plNew.TimeExprieAt, time.Millisecond)
 	require.WithinDuration(t, pl.IssueAt, plNew.IssueAt, time.Millisecond)
