@@ -13,6 +13,7 @@ COPY --from=builder /app/main /app/
 COPY --from=builder /app/migrate.linux-amd64 /app/migrate
 COPY app.env /app/
 COPY db/migration /app/migration
+COPY start.sh /app/
 
 EXPOSE 8080
 EXPOSE 8190

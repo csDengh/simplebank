@@ -20,9 +20,9 @@ spec:
         ports:
         - containerPort: 8080
         - containerPort: 8190
-      env:
-        - name: DB_SOURCE
-          value: postgresql://root:secret@engine-postgres:5432/simple_bank?sslmode=disable
+        env:
+          - name: DB_SOURCE
+            value: postgresql://root:secret@engine-postgres:5432/simple_bank?sslmode=disable
 
 ---
 kind: Service
@@ -33,10 +33,12 @@ spec:
   selector:
     app: simplebank
   ports:
-    - protocol: TCP
-      port: 80
+    - name: simplebank-rest
+      protocol: TCP
+      port: 8080
       targetPort: 8080
-    - protocol: TCP
-      port: 80
+    - name: simplebank-grpc 
+      protocol: TCP
+      port: 8190
       targetPort: 8190
 
