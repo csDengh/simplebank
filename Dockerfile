@@ -3,7 +3,7 @@ WORKDIR /app
 COPY . .
 RUN go env -w GOPROXY=https://goproxy.cn,direct
 RUN go build -o main main.go
-RUN apk --no-cache add curl
+RUN apk add curl
 RUN curl -L https://github.com/golang-migrate/migrate/releases/download/v4.14.1/migrate.linux-amd64.tar.gz | tar xvz
         
 
@@ -16,4 +16,5 @@ COPY db/migration /app/migration
 
 EXPOSE 8080
 EXPOSE 8190
-ENTRYPOINT [ "/app/main" ]
+CMD [ "/app/main" ]
+ENTRYPOINT [ "/app/migrate -path /app/migration -database "$DB_SOURCE" -verbose up" ]

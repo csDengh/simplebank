@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: engine-postgres
+  namespace: pie-engine-infra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: engine-postgres
+  template:
+    metadata:
+      labels:
+        name: engine-postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:12-alpine
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: POSTGRES_USER
+          value: root
+        - name: POSTGRES_PASSWORD
+          value: secret
+        - name: POSTGRES_DB
+          value: simple_bank
+        volumeMounts:
+        - name: postgres
+          mountPath: /var/lib/postgresql/12/main
+      volumes:
+      - name: postgres
+        hostPath:
+          path: /data/postgre
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: engine-postgres
+  namespace: pie-engine-infra
+  labels:
+    name: engine-postgres
+spec:
+  type: NodePort
+  ports:
+    - nodePort: 30811
+      port: 5432
+      targetPort: 5432
+      protocol: TCP
+  selector:
+    name: engine-postgres

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simplebank
+  labels:
+    app: simplebank
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: simplebank
+  template:
+    metadata:
+      labels:
+        app: simplebank
+    spec:
+      containers:
+      - name: simplebank
+        image: csdengh/simplebank:latest
+        ports:
+        - containerPort: 8080
+        - containerPort: 8190
+      env:
+        - name: DB_SOURCE
+          value: postgresql://root:secret@engine-postgres:5432/simple_bank?sslmode=disable
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: simplebank
+spec:
+  selector:
+    app: simplebank
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+    - protocol: TCP
+      port: 80
+      targetPort: 8190
+
