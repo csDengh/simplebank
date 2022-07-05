@@ -17,4 +17,4 @@ COPY db/migration /app/migration
 EXPOSE 8080
 EXPOSE 8190
 CMD [ "/app/main" ]
-ENTRYPOINT [ "/app/migrate -path /app/migration -database "$DB_SOURCE" -verbose up" ]
+ENTRYPOINT ["/app/start.sh"]
