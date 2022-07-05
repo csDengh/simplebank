@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: simplebank
-        image: csdengh/simplebank:v5
+        image: csdengh/simplebank
         ports:
         - containerPort: 8080
         - containerPort: 8190

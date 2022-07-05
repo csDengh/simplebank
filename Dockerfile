@@ -8,7 +8,7 @@ RUN go build -o main main.go
 # RUN curl -L https://github.com/golang-migrate/migrate/releases/download/v4.14.1/migrate.linux-amd64.tar.gz | tar xvz
         
 
-FROM appine:3.15
+FROM alpine:3.15
 WORKDIR /app
 COPY --from=builder /app/main .
 COPY app.env .
