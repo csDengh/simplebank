@@ -42,8 +42,7 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - nodePort: 30811
-      port: 5432
+    - port: 5432
       targetPort: 5432
       protocol: TCP
   selector:

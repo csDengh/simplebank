@@ -51,7 +51,7 @@ test:
 	go test -v -cover ./...
 
 dockerrun:
-	sudo docker run --name simplebank -p 8090:8090 -e GIN_MODE=release -e DB_SOURCE="postgresql://root:secret@172.17.0.2:5432/simple_bank?sslmode=disable"  simplebank:latest
+	sudo docker run --name simplebank -p 8090:8090 -e DB_SOURCE="postgresql://root:secret@172.17.0.2:5432/simple_bank?sslmode=disable"  simplebank:latest
 
 .PHONY: createdb dropdb postgres migrateup migrateup1 migratedown migratedown1 migrateNew proto
 

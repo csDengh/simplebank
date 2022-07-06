@@ -60,18 +60,18 @@ jobs:
         docker build -t ${{ secrets.USERNAME }}/simplebank:${{ github.sha }} -t ${{ secrets.USERNAME }}/simplebank:latest .
         docker push -a ${{ secrets.USERNAME }}/simplebank
       
-    # - name: Trigger CI
-    #   uses: InformaticsMatters/trigger-ci-action@1.0.1
-    #   with:
-    #     ci-owner: pyfs
-    #     ci-repository: flask-demo-kustomize
-    #     ci-ref: refs/heads/master
-    #     ci-user: pyfs
-    #     ci-user-token: ${{ secrets.CI_TOKEN }}
-    #     ci-name: CI
-    #     ci-inputs: >-
-    #       image=${{ secrets.USERNAME }}/flask-demo
-    #       sha-tag=${{ github.sha }}
+    - name: Trigger CI
+      uses: InformaticsMatters/trigger-ci-action@1.0.1
+      with:
+        ci-owner: csdengh
+        ci-repository: simplebankCD
+        ci-ref: refs/heads/main
+        ci-user: csdengh
+        ci-user-token: ${{ secrets.CI_TOKEN }}
+        ci-name: CD
+        ci-inputs: >-
+          image=${{ secrets.USERNAME }}/simplebank
+          sha-tag=${{ github.sha }}
 
   
   
