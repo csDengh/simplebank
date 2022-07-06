@@ -63,10 +63,10 @@ jobs:
     - name: Trigger CI
       uses: InformaticsMatters/trigger-ci-action@1.0.1
       with:
-        ci-owner: csdengh
+        ci-owner: csDengh
         ci-repository: simplebankCD
         ci-ref: refs/heads/main
-        ci-user: csdengh
+        ci-user: csDengh
         ci-user-token: ${{ secrets.CI_TOKEN }}
         ci-name: CD
         ci-inputs: >-
