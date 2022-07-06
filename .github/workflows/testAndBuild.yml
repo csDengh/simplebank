@@ -1,4 +1,4 @@
-name: test
+name: CI
 
 on:
   push:
@@ -68,7 +68,7 @@ jobs:
         ci-ref: refs/heads/main
         ci-user: csdengh
         ci-user-token: ${{ secrets.CI_TOKEN }}
-        ci-name: CD
+        ci-name: CI
         ci-inputs: >-
           image=${{ secrets.USERNAME }}/simplebank
           sha-tag=${{ github.sha }}
