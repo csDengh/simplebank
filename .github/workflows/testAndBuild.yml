@@ -64,7 +64,7 @@ jobs:
       uses: InformaticsMatters/trigger-ci-action@1.0.1
       with:
         ci-owner: csDengh
-        ci-repository: simplebankCD
+        ci-repository: samplebankCD
         ci-ref: refs/heads/main
         ci-user: csDengh
         ci-user-token: ${{ secrets.CI_TOKEN }}
