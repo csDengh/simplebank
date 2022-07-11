@@ -30,9 +30,9 @@ func main() {
 		log.Fatalln(err)
 	}
 	store := db.NewStore(conn)
-	go grpcHttpServer(config, store)
-	grpcServer(config, store)
-
+	// go grpcHttpServer(config, store)
+	// grpcServer(config, store)
+	restServer(config, store)
 }
 
 func restServer(config *utils.Config, store db.Store) {
